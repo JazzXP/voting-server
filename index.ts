@@ -1,6 +1,7 @@
 import makeStore from './src/store';
 import startServer from './src/server';
 import {VotingServerState} from './src/core'
+import {Store} from 'redux';
 
 export const store: Store<VotingServerState> = makeStore();
 startServer(store);
