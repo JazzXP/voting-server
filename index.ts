@@ -1,7 +1,8 @@
 import makeStore from './src/store';
 import startServer from './src/server';
+import {VotingServerState} from './src/core'
 
-export const store = makeStore();
+export const store: Store<VotingServerState> = makeStore();
 startServer(store);
 
 store.dispatch({

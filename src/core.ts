@@ -53,8 +53,8 @@ function getWinners(vote: VotingServerState): List<string> {
 }
 
 export function next(state: VotingServerState): VotingServerState {
-    const entries: any = state.get('entries')
-                            .concat(getWinners(state.get('vote')));
+    const entries: List<string> = state.get('entries')
+                                        .concat(getWinners(state.get('vote')));
     if (entries.size === 1) {
         return state.remove('vote')
                     .remove('entries')
@@ -72,6 +72,6 @@ export function vote(voteState: VotingServerState, entry: string): VotingServerS
     return voteState.updateIn(
         ['tally', entry],
         0,
-        (tally: any) => tally + 1
+        (tally: number) => tally + 1
     );
 }
