@@ -1,5 +1,5 @@
 import * as CONSTANTS from './constants';
-import { Map } from 'immutable'
+import { Map, List } from 'immutable'
 
 export type SetEntriesAction = {
     type?: CONSTANTS.SET_ENTRIES,
