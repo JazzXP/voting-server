@@ -1,6 +1,6 @@
 import * as Server from 'socket.io';
-import {Store} from 'redux';
-import {VotingServerState} from './core';
+import { Store } from 'redux';
+import { VotingServerState } from './state';
 
 export default function startServer(store: Store<VotingServerState>) {
     const io: SocketIO.Server = Server().attach(8090);

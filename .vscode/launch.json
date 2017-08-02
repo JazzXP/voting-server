@@ -7,6 +7,26 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Mocha Tests",
+            "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
+            "args": [
+                "-u",
+                "tdd",
+                "--timeout",
+                "999999",
+                "--colors",
+                "--compilers",
+                "ts:ts-node/register",
+                "--require",
+                "./test/test_helper.ts",
+                "--recursive"
+                //"${workspaceRoot}/test"
+            ],
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Debug Server",
             "program": "${workspaceRoot}/node_modules/ts-node/dist/_bin.js",
             "args": [

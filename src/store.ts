@@ -1,5 +1,5 @@
 import { createStore, Store } from 'redux';
-import {VotingServerState} from './core';
+import { VotingServerState } from './state';
 import reducer from './reducer';
 
 export default function makeStore(): Store<VotingServerState> {

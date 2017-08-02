@@ -1,7 +1,8 @@
 import { SET_ENTRIES, VOTE, NEXT } from './constants';
-import {setEntries, next, vote, INITIAL_STATE, VotingServerState, VOTE_SERVER_STATE} from './core';
-import {SetEntriesAction, VoteAction, NextAction, OtherAction} from './action_types';
-import {fromJS} from 'immutable';
+import { INITIAL_STATE, VotingServerState } from './state';
+import { setEntries, next, vote } from './actions';
+import { SetEntriesAction, VoteAction, NextAction, OtherAction } from './action_types';
+import { fromJS } from 'immutable';
 
 type AllActions = 
     SetEntriesAction |

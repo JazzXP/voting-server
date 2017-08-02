@@ -1,50 +1,40 @@
-import {Record, List, Map} from 'immutable';
-import {SET_ENTRIES, VOTE, NEXT} from './constants';
+import { List, Map } from 'immutable';
+import { SET_ENTRIES, VOTE, NEXT } from './constants';
+import { VOTING_SERVER_STATE, VotingServerState } from './state';
 
-export type VOTE_SERVER_STATE = {
-    pair?: List<string>,
-    tally?: Map<string, number>
-}
-
-export type VOTING_SERVER_STATE = {
+type _VOTING_SEVER_ACTION = {
     type: SET_ENTRIES | VOTE | NEXT | '';
-    entries?: List<string>;
-    vote?: VOTE_SERVER_STATE
-    winner?: string;
-    entry?: string;
 }
 
-export class VotingServerState extends Record({type: '', entries: undefined, vote: undefined, winner: undefined, entry: undefined} as VOTE_SERVER_STATE) {}
+export type VOTING_SERVER_ACTION = _VOTING_SEVER_ACTION & VOTING_SERVER_STATE;
 
-export function setEntriesAction(entries: List<string>): VOTING_SERVER_STATE {
+export function setEntriesAction(entries: List<string>): VOTING_SERVER_ACTION {
     return {
         type: SET_ENTRIES,
         entries
     };
 }
 
-export function voteAction(entry?: string): VOTING_SERVER_STATE {
+export function voteAction(entry?: string): VOTING_SERVER_ACTION {
     return {
         type: VOTE,
         entry
     }
 }
 
-export function nextAction(): VOTING_SERVER_STATE {
+export function nextAction(): VOTING_SERVER_ACTION {
     return {
         type: NEXT
     }
 }
 
-export const INITIAL_STATE = new VotingServerState();
-
-export function setEntries(state: VotingServerState, entries: List<string>) {
+export function setEntries(state: VotingServerState, entries: List<string> | Array<string>) {
     return state.set('entries', List(entries));
 }
 
 function getWinners(vote: VotingServerState): List<string> {
     if (!vote) return List<string>([]);
-    const [a,b] = vote.get('pair');
+    const [a,b] = vote.get('pair').toJS();
     const aVotes = vote.getIn(['tally', a], 0);
     const bVotes = vote.getIn(['tally', b], 0);
     if (aVotes > bVotes) return List<string>([a]);
@@ -69,7 +59,10 @@ export function next(state: VotingServerState): VotingServerState {
 }
 
 export function vote(voteState: VotingServerState, entry: string): VotingServerState {
-    return voteState.updateIn(
+    let tempVoteState = voteState;
+    if (voteState.get('tally') == undefined) // change default to a map for below, not ideal, but due to being a "Record" and having defaults rather than a "Map" and being blank
+        tempVoteState = voteState.set('tally', Map());
+    return tempVoteState.updateIn(
         ['tally', entry],
         0,
         (tally: number) => tally + 1

@@ -1,24 +1,26 @@
-import {Map, fromJS} from 'immutable';
-import {expect} from 'chai';
+import { List, Map, fromJS } from 'immutable';
+import { expect } from 'chai';
 
 import reducer from '../src/reducer';
+import { VotingServerState } from '../src/state';
+import { SET_ENTRIES, NEXT, VOTE } from '../src/constants';
 
 describe('reducer', () => {
     it('handles SET_ENTRIES', () => {
-        const initialState = Map();
-        const action = {type:'SET_ENTRIES', entries:['Trainspotting']};
+        const initialState = new VotingServerState();
+        const action = {type:SET_ENTRIES, entries:['Trainspotting']};
         const nextState = reducer(initialState, action);
 
-        expect(nextState).to.equal(fromJS({
+        expect(nextState.toJS()).to.deep.equal({
             entries: ['Trainspotting']
-        }));
+        });
     });
 
     it('handles NEXT', () => {
         const initialState = fromJS({
             entries: ['Trainspotting', '28 Days Later']
         });
-        const action = {type: 'NEXT'};
+        const action = {type: NEXT};
         const nextState = reducer(initialState, action);
 
         expect(nextState).to.equal(fromJS({
@@ -36,7 +38,7 @@ describe('reducer', () => {
             },
             entries: []
         });
-        const action = {type: 'VOTE', entry:'Trainspotting'};
+        const action = {type: VOTE, entry:'Trainspotting'};
         const nextState = reducer(initialState, action);
 
         expect(nextState).to.equal(fromJS({
@@ -49,21 +51,21 @@ describe('reducer', () => {
     });
 
     it ('has an initial state', () => {
-        const action = {type: 'SET_ENTRIES', entries: ['Trainspotting']};
+        const action = {type: SET_ENTRIES, entries: ['Trainspotting']};
         const nextState = reducer(undefined, action);
-        expect(nextState).to.equal(fromJS({
-            entries: ['Trainspotting']
+        expect(nextState).to.deep.equal(new VotingServerState({
+            entries: List.of('Trainspotting')
         }));
     });
 
     it ('can be used with reduce', () => {
         const actions = [
-            {type: 'SET_ENTRIES', entries: ['Trainspotting', '28 Days Later']},
-            {type: 'NEXT'},
-            {type: 'VOTE', entry: 'Trainspotting'},
-            {type: 'VOTE', entry: '28 Days Later'},
-            {type: 'VOTE', entry: 'Trainspotting'},
-            {type: 'NEXT'}
+            {type: SET_ENTRIES, entries: ['Trainspotting', '28 Days Later']},
+            {type: NEXT},
+            {type: VOTE, entry: 'Trainspotting'},
+            {type: VOTE, entry: '28 Days Later'},
+            {type: VOTE, entry: 'Trainspotting'},
+            {type: NEXT}
         ];
         const finalState = actions.reduce(reducer, Map());
 
