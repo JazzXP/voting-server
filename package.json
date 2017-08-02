@@ -1,18 +1,18 @@
 {
   "name": "react-test",
   "version": "1.0.0",
-  "description": "",
+  "description": "My attempt to move https://teropa.info/blog/2015/09/10/full-stack-redux-tutorial.html to Typescript with full type safety.",
   "main": "index.js",
   "scripts": {
     "start": "ts-node index.ts",
     "test": "mocha --compilers ts:ts-node/register --require ./test/test_helper.ts --recursive",
     "test:watch": "npm run test -- --watch"
   },
-  "babel": {
-    "presets": [
-      "es2015"
-    ]
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JazzXP/voting-server.git"
   },
+  "keywords": ["Typescript", "React", "Redux", "React-Redux"],
   "author": "",
   "license": "ISC",
   "devDependencies": {
